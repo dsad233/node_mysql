@@ -3,6 +3,10 @@ import { ENV_JWT_SECRET } from "../const-config.js";
 
 const checkToken = (req, res, next) => {
     try {
+        if(!req.cookies.authrization){
+            return res.status(400).json({ message : "먼저 로그인을 진행해주세요." });
+        }
+        
         const [tokenType, token] = req.cookies.authrization.split(' ');
     
         if(!token || !tokenType){
@@ -34,7 +38,8 @@ const checkToken = (req, res, next) => {
         } else if(error.name === "JsonWebTokenError"){
             return res.status(401).json({ message : "토큰 오류가 발생되었습니다." });
         } else {
-            return res.status(500).json({ message : "비정상적인 오류가 발생하였습니다.", Error :  error.message });
+            console.log(error.message);
+            return res.status(500).json({ message : "비정상적인 오류가 발생하였습니다." });
         }
     }
 };

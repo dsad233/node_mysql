@@ -25,7 +25,7 @@ router.get('/', checkToken, rolesCheck, (req, res) => {
         });
     } catch (error) {
         if(error){
-            console.log(error.message)
+            console.log(error.message);
             return res.status(500).json({ message : "유저 전체 조회에 실패하였습니다." });
         }
     }
@@ -38,6 +38,30 @@ router.get('/mypage', checkToken, (req, res) => {
         const sql = 'select * from users where id = ?';
     
         req.mysql.query(sql, id, (error, results) => {
+            if(error){
+                console.log(error.message);
+                return res.status(500).json({ message : "데이터 전송에 오류가 발생하였습니다." });
+            } else if(results.length !== 0){
+                return res.status(200).json({ message : "유저 마이페이지 조회 완료", results });
+            } else if(results.length === 0){
+                return res.status(404).json({ message : "유저 정보가 존재하지 않습니다." });
+            }
+        });
+    } catch (error){
+        if(error){
+            console.log(error.message)
+            return res.status(500).json({ message : "유저 마이페이지 조회에 실패하였습니다." });
+        }
+    }
+});
+
+// 유저 상세 조회 (어드민만)
+router.get('/:paramid', checkToken, rolesCheck, (req, res) => {
+    try {
+        const { paramid } = req.params;
+        const sql = 'select * from users where id = ?';
+    
+        req.mysql.query(sql, paramid, (error, results) => {
             if(error){
                 console.log(error.message);
                 return res.status(500).json({ message : "데이터 전송에 오류가 발생하였습니다." });

@@ -120,12 +120,12 @@ router.get('/day', (req, res) => {
 });
 
 // 게시글 상세 조회
-router.get("/:id", checkToken, (req, res) => {
+router.get("/:paramid", checkToken, (req, res) => {
     try {
-        const { id } = req.params;
+        const { paramid } = req.params;
         const sql = "select * from posts where id = ?";
         
-        req.mysql.query(sql, id, (error, results) => {
+        req.mysql.query(sql, paramid, (error, results) => {
             if(error){
                 console.log(error.message);
                 return res.status(500).json({ message : "데이터 전송에 오류가 발생하였습니다." });
@@ -180,9 +180,9 @@ router.post("/", checkToken, (req, res, next) => {
 });
 
 // 게시글 수정
-router.patch("/:id", checkToken, (req, res, next) => {
+router.patch("/:paramid", checkToken, (req, res, next) => {
     try {
-        const { id } = req.params;
+        const { paramid } = req.params;
         const body = req.body;
         const selectPost = 'select * from posts where id = ? and deletedAt is null';
         const updatePost = "update posts set title = ?, content = ?, category = ?, isOpen = ? where id = ?";
@@ -204,7 +204,7 @@ router.patch("/:id", checkToken, (req, res, next) => {
                 console.log("beginTransaction Error : ", error.message);
                 return res.status(500).json({ message : "트랜잭션 시작 도중 오류가 발생하였습니다." })
             }
-            req.mysql.query(selectPost, id, (error, results) => {
+            req.mysql.query(selectPost, paramid, (error, results) => {
                 if(error){
                     console.log("posts table Error : ", error.message);
                     return req.mysql.rollback(() => {
@@ -221,7 +221,7 @@ router.patch("/:id", checkToken, (req, res, next) => {
                 const categoryEnable = !body.category ? results[0].category : body.category;
                 const isOpenEnable = typeof body.isOpen === 'undefined' ? Boolean(results[0].isOpen) : Boolean(body.isOpen);
 
-                const data = [titleEnable, contentEnable, categoryEnable, isOpenEnable, id];
+                const data = [titleEnable, contentEnable, categoryEnable, isOpenEnable, paramid];
 
                 req.mysql.query(updatePost, data, (error2, results2) => {
                     if(error2){
@@ -256,12 +256,12 @@ router.patch("/:id", checkToken, (req, res, next) => {
 });
 
 // 게시글 소프트 삭제
-router.patch('/softdelete/:paramId', checkToken, (req, res, next) => {
+router.patch('/softdelete/:paramid', checkToken, (req, res, next) => {
     try {
-        const { paramId } = req.params;
+        const { paramid } = req.params;
         const sql = 'update posts set deletedAt = ? where id = ?';
         const deletedAtNow = new Date();
-        const resultData = [deletedAtNow, paramId];
+        const resultData = [deletedAtNow, paramid];
     
         req.mysql.query(sql, resultData, (error, results) => {
             if(error){
@@ -282,17 +282,16 @@ router.patch('/softdelete/:paramId', checkToken, (req, res, next) => {
 });
 
 // 게시글 삭제
-router.delete("/:id", checkToken, (req, res, next) => {
+router.delete("/:paramid", checkToken, (req, res, next) => {
     try {
-        const { id } = req.params;
+        const { paramid } = req.params;
         const sql = "delete from posts where id = ?";
     
-        req.mysql.query(sql, id, (error, results) => {
-            console.log(results)
+        req.mysql.query(sql, paramid, (error, results) => {
             if(error){
                 console.log(error.message);
                 return res.status(500).json({ message : "데이터 전송에 오류가 발생하였습니다." });
-            } else if(results.changedRows !== 0){
+            } else if(results.affectedRows !== 0){
                 return res.status(201).json({ message : "게시글을 정상적으로 삭제하였습니다." });
             } else if(results.affectedRows === 0){
                 return res.status(404).json({ message : "게시글이 존재하지 않습니다." });
