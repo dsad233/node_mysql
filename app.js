@@ -24,5 +24,5 @@ app.use('/api-docs', swagger.swaggerUi.serve, swagger.swaggerUi.setup(swagger.sp
 
 app.listen(port, () => {
     console.log(port, "서버가 정상적으로 실행중입니다.");
-    console.log("swagger 주소 : http://localhost:3000/api-docs");
+    console.log("Swagger 주소 : http://localhost:3000/api-docs");
 });

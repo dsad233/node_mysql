@@ -9,17 +9,14 @@ const db_info = {
     database: ENV_DB_DATABASE
   };
 
-  console.log(db_info)
-
-
   const module = {
     init: function () {
       return mysql.createConnection(db_info);
     },
     connect: function (conn) {
       conn.connect(function (err) {
-        if (err) console.error("mysql 연결 에러! : " + err);
-        else console.log("mysql 정상적으로 연결 완료!");
+        if (err) console.error("Mysql 연결 에러! : " + err);
+        else console.log("Mysql 정상적으로 연결 완료!");
       });
     },
   };
