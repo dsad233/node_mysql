@@ -3,9 +3,159 @@ import bcrypt from "bcrypt";
 import { ENV_PASSWORD_SALT } from "../utils/const-config.js";
 import userToken from "../utils/jwt/signjwt.js";
 
-
 const router = express.Router();
 
+/**
+ * @swagger
+ * tags:
+ *   name: Auth
+ *   description: 회원가입 및 로그인 관련 API
+ */
+
+/**
+ * @swagger
+ * /auth/register:
+ *   post:
+ *     tags:
+ *       - Auth
+ *     summary: 회원가입 API
+ *     description: 이메일, 비밀번호, 닉네임을 통해 새로운 계정을 생성합니다.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: 이메일 주소
+ *                 example: 'test@naver.com'
+ *               password:
+ *                 type: string
+ *                 description: 비밀번호
+ *                 example: '1234'
+ *               nickname:
+ *                 type: string
+ *                 description: 사용자 닉네임
+ *                 example: 'nickname'
+ *               image:
+ *                 type: string
+ *                 description: 프로필 이미지 URL
+ *                 example: 'image.jpg'
+ *     responses:
+ *       201:
+ *         description: 회원가입 성공
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "계정 생성 완료"
+ *       400:
+ *         description: 중복된 이메일 또는 닉네임
+ *       500:
+ *         description: 서버 오류
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "회원가입에 실패하였습니다."
+ */
+
+/**
+ * @swagger
+ * /auth/login:
+ *   post:
+ *     tags:
+ *       - Auth
+ *     summary: 로그인 API
+ *     description: 이메일과 비밀번호를 사용하여 로그인합니다.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: 유저 이메일
+ *                 example: 'test@naver.com'
+ *               password:
+ *                 type: string
+ *                 description: 유저 비밀번호
+ *                 example: '1234'
+ *     responses:
+ *       200:
+ *         description: 로그인 성공
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "로그인 완료"
+ *       400:
+ *         description: 비밀번호 불일치 또는 삭제된 계정
+ *       404:
+ *         description: 존재하지 않는 유저
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "존재하지 않는 유저입니다."
+ *       500:
+ *         description: 서버 오류
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "로그인에 실패하였습니다."
+ */
+
+/**
+ * @swagger
+ * /auth/logout:
+ *   post:
+ *     tags:
+ *       - Auth
+ *     summary: 로그아웃 API
+ *     description: 현재 사용자의 세션을 종료하고 로그아웃합니다.
+ *     responses:
+ *       201:
+ *         description: 로그아웃 성공
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "로그아웃 완료"
+ *       500:
+ *         description: 서버 오류
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "로그아웃에 실패하였습니다."
+ */
 
 // 회원가입
 router.post('/register', async (req, res, next) => {

@@ -41,9 +41,9 @@
 ---
 
 #### ETC
-- Mysql
+- Mysqls
 - Nodemailer
-
+- Swagger
 
 
 </br>

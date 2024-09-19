@@ -4,6 +4,751 @@ import { sendPostEmail } from "../utils/sendEmail.middleware.js";
 
 const router = express.Router();
 
+/**
+ * @swagger
+ * tags:
+ *   name: Posts
+ *   description: 게시글 관련 API
+ */
+
+/**
+ * @swagger
+ * /posts/mypost:
+ *   get:
+ *     tags:
+ *       - Posts
+ *     summary: 내가 작성한 게시글 조회
+ *     description: 사용자가 작성한 모든 게시글을 조회합니다. 요청 시 토큰을 통해 사용자의 정보를 확인합니다.
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: 내 게시글 조회 성공
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "내 게시글 조회 완료"
+ *                 results:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         default: 1
+ *                       title:
+ *                         type: string
+ *                       content:
+ *                         type: string
+ *                       category:
+ *                         type: string
+ *                       createdAt:
+ *                         type: string
+ *                         description: 게시글 생성 일자
+ *                         format: date-time
+ *                       updatedAt:
+ *                         type: string
+ *                         description: 게시글 업데이트 일자
+ *                         format: date-time
+ *                       deletedAt:
+ *                         type: string
+ *                         description: 게시글 삭제 여부
+ *                         format: date-time
+ *                       userId:
+ *                         type: integer
+ *                         default: 1
+ *                       isOpen:
+ *                         type: boolean
+ *       500:
+ *         description: 서버 오류
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "데이터 전송에 오류가 발생하였습니다."
+ *       404:
+ *         description: 게시글이 존재하지 않음
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "게시글이 존재하지 않습니다."
+ */
+
+
+/**
+ * @swagger
+ * /posts/:
+ *   get:
+ *     tags:
+ *       - Posts
+ *     summary: '게시글 전체 조회'
+ *     description: 공개된 게시글을 전체 조회합니다.
+ *     responses:
+ *       200:
+ *         description: '게시글 전체 조회 성공'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: '게시글 전체 조회 완료'
+ *                 results:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         default: 1
+ *                       title:
+ *                         type: string
+ *                       content:
+ *                         type: string
+ *                       category:
+ *                         type: string
+ *                       createdAt:
+ *                         type: string
+ *                         description: 게시글 생성 일자
+ *                         format: date-time
+ *                       updatedAt:
+ *                         type: string
+ *                         description: 게시글 업데이트 일자
+ *                         format: date-time
+ *                       deletedAt:
+ *                         type: string
+ *                         description: 게시글 삭제 여부
+ *                         format: date-time
+ *                       userId:
+ *                         type: integer
+ *                         default: 1
+ *                       isOpen:
+ *                         type: boolean
+ *       500:
+ *         description: 서버 오류
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "데이터 전송에 오류가 발생하였습니다."
+ *       404:
+ *         description: 게시글이 존재하지 않음
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "게시글이 존재하지 않습니다."
+ */
+
+
+/**
+ * @swagger
+ * /posts/music:
+ *   get:
+ *     tags:
+ *       - Posts
+ *     summary: 'music 게시글 전체 조회'
+ *     description: 공개된 'music' 카테고리의 게시글을 전체 조회합니다.
+ *     responses:
+ *       200:
+ *         description: 'music 게시글 전체 조회 성공'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: 'music 게시글 전체 조회 완료'
+ *                 results:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         default: 1
+ *                       title:
+ *                         type: string
+ *                       content:
+ *                         type: string
+ *                       category:
+ *                         type: string
+ *                         default: "music"
+ *                       createdAt:
+ *                         type: string
+ *                         description: 게시글 생성 일자
+ *                         format: date-time
+ *                       updatedAt:
+ *                         type: string
+ *                         description: 게시글 업데이트 일자
+ *                         format: date-time
+ *                       deletedAt:
+ *                         type: string
+ *                         description: 게시글 삭제 여부
+ *                         format: date-time
+ *                       userId:
+ *                         type: integer
+ *                         default: 1
+ *                       isOpen:
+ *                         type: boolean
+ *       500:
+ *         description: 서버 오류
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "데이터 전송에 오류가 발생하였습니다."
+ *       404:
+ *         description: music 게시글이 존재하지 않음
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "music 게시글이 존재하지 않습니다."
+ */
+
+
+/**
+ * @swagger
+ * /posts/post:
+ *   get:
+ *     tags:
+ *       - Posts
+ *     summary: 'post 게시글 전체 조회'
+ *     description: 공개된 'post' 카테고리의 게시글을 전체 조회합니다.
+ *     responses:
+ *       200:
+ *         description: 'post 게시글 전체 조회 성공'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: 'post 게시글 전체 조회 완료'
+ *                 results:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         default: 1
+ *                       title:
+ *                         type: string
+ *                       content:
+ *                         type: string
+ *                       category:
+ *                         type: string
+ *                         default: "post"
+ *                       createdAt:
+ *                         type: string
+ *                         description: 게시글 생성 일자
+ *                         format: date-time
+ *                       updatedAt:
+ *                         type: string
+ *                         description: 게시글 업데이트 일자
+ *                         format: date-time
+ *                       deletedAt:
+ *                         type: string
+ *                         description: 게시글 삭제 여부
+ *                         format: date-time
+ *                       userId:
+ *                         type: integer
+ *                         default: 1
+ *                       isOpen:
+ *                         type: boolean
+ *       500:
+ *         description: 서버 오류
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "데이터 전송에 오류가 발생하였습니다."
+ *       404:
+ *         description: post 게시글이 존재하지 않음
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "post 게시글이 존재하지 않습니다."
+ */
+
+
+/**
+ * @swagger
+ * /posts/day:
+ *   get:
+ *     tags:
+ *       - Posts
+ *     summary: 'day 게시글 전체 조회'
+ *     description: 공개된 'day' 카테고리의 게시글을 전체 조회합니다.
+ *     responses:
+ *       200:
+ *         description: 'day 게시글 전체 조회 성공'
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: 'day 게시글 전체 조회 완료'
+ *                 results:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         default: 1
+ *                       title:
+ *                         type: string
+ *                       content:
+ *                         type: string
+ *                       category:
+ *                         type: string
+ *                         default: "day"
+ *                       createdAt:
+ *                         type: string
+ *                         description: 게시글 생성 일자
+ *                         format: date-time
+ *                       updatedAt:
+ *                         type: string
+ *                         description: 게시글 업데이트 일자
+ *                         format: date-time
+ *                       deletedAt:
+ *                         type: string
+ *                         description: 게시글 삭제 여부
+ *                         format: date-time
+ *                       userId:
+ *                         type: integer
+ *                         default: 1
+ *                       isOpen:
+ *                         type: boolean
+ *       500:
+ *         description: 서버 오류
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "데이터 전송에 오류가 발생하였습니다."
+ *       404:
+ *         description: day 게시글이 존재하지 않음
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "day 게시글이 존재하지 않습니다."
+ */
+
+
+/**
+ * @swagger
+ * /posts/{paramid}:
+ *   get:
+ *     tags:
+ *       - Posts
+ *     summary: 게시글 상세 조회
+ *     description: 게시글 ID에 따른 상세 정보를 조회합니다.
+ *     parameters:
+ *       - name: paramid
+ *         in: path
+ *         required: true
+ *         description: 게시글 ID
+ *         schema:
+ *           type: integer
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: 게시글 상세 조회 성공
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: '게시글 상세 조회 완료'
+ *                 results:
+ *                   type: object
+ *                   properties:
+ *                       id:
+ *                         type: integer
+ *                         default: 1
+ *                       title:
+ *                         type: string
+ *                       content:
+ *                         type: string
+ *                       category:
+ *                         type: string
+ *                       createdAt:
+ *                         type: string
+ *                         description: 게시글 생성 일자
+ *                         format: date-time
+ *                       updatedAt:
+ *                         type: string
+ *                         description: 게시글 업데이트 일자
+ *                         format: date-time
+ *                       deletedAt:
+ *                         type: string
+ *                         description: 게시글 삭제 여부
+ *                         format: date-time
+ *                       userId:
+ *                         type: integer
+ *                         default: 1
+ *                       isOpen:
+ *                         type: boolean
+ *       500:
+ *         description: 서버 오류
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "데이터 전송에 오류가 발생하였습니다."
+ *       404:
+ *         description: 게시글이 존재하지 않음
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "게시글이 존재하지 않습니다."
+ */
+
+
+/**
+ * @swagger
+ * /posts:
+ *   post:
+ *     tags:
+ *       - Posts
+ *     summary: 게시글 생성
+ *     description: 새로운 게시글을 생성합니다.
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 description: 게시글 제목
+ *                 example: '게시글 제목'
+ *               content:
+ *                 type: string
+ *                 description: 게시글 내용
+ *                 example: '게시글 내용'
+ *               category:
+ *                 type: string
+ *                 description: 게시글 카테고리 (music, post, day)
+ *                 example: 'music'
+ *               isOpen:
+ *                 type: boolean
+ *                 description: 게시글 공개 여부
+ *                 example: true
+ *     responses:
+ *       201:
+ *         description: 게시글 생성 성공
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: '게시글을 정상적으로 생성하였습니다.'
+ *       400:
+ *         description: 잘못된 요청
+ *       500:
+ *         description: 서버 오류
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "데이터 전송에 오류가 발생하였습니다."
+ */
+
+
+/**
+ * @swagger
+ * /posts/{paramid}:
+ *   patch:
+ *     tags:
+ *       - Posts
+ *     summary: 게시글 수정
+ *     description: 게시글 정보를 수정합니다.
+ *     parameters:
+ *       - name: paramid
+ *         in: path
+ *         required: true
+ *         description: 게시글 ID
+ *         schema:
+ *           type: integer
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 description: 게시글 제목
+ *                 example: '수정된 게시글 제목'
+ *               content:
+ *                 type: string
+ *                 description: 게시글 내용
+ *                 example: '수정된 게시글 내용'
+ *               category:
+ *                 type: string
+ *                 description: 게시글 카테고리 (music, post, day)
+ *                 example: 'music'
+ *               isOpen:
+ *                 type: boolean
+ *                 description: 게시글 공개 여부
+ *                 example: true
+ *     responses:
+ *       201:
+ *         description: 게시글 수정 성공
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: '게시글을 정상적으로 수정하였습니다.'
+ *       400:
+ *         description: 잘못된 요청
+ *       404:
+ *         description: 게시글이 존재하지 않음
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "게시글이 존재하지 않습니다."
+ *       500:
+ *         description: 서버 오류
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "데이터 전송에 오류가 발생하였습니다."
+ */
+
+
+/**
+ * @swagger
+ * /posts/softdelete/{paramid}:
+ *   patch:
+ *     tags:
+ *       - Posts
+ *     summary: 게시글 소프트 삭제
+ *     description: 게시글을 소프트 삭제 처리합니다. (deletedAt 필드 업데이트)
+ *     parameters:
+ *       - name: paramid
+ *         in: path
+ *         required: true
+ *         description: 게시글 ID
+ *         schema:
+ *           type: integer
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       201:
+ *         description: 게시글 소프트 삭제 성공
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "게시글을 정상적으로 삭제하였습니다."
+ *       500:
+ *         description: 서버 오류
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "데이터 전송에 오류가 발생하였습니다."
+ *       404:
+ *         description: 게시글이 존재하지 않음
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "게시글이 존재하지 않습니다."
+ */
+
+
+/**
+ * @swagger
+ * /posts/{paramid}:
+ *   delete:
+ *     tags:
+ *       - Posts
+ *     summary: 게시글 삭제
+ *     description: 게시글을 완전히 삭제합니다.
+ *     parameters:
+ *       - name: paramid
+ *         in: path
+ *         required: true
+ *         description: 게시글 ID
+ *         schema:
+ *           type: integer
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       201:
+ *         description: 게시글 삭제 성공
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "게시글을 정상적으로 삭제하였습니다."
+ *       500:
+ *         description: 서버 오류
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "데이터 전송에 오류가 발생하였습니다."
+ *       404:
+ *         description: 게시글이 존재하지 않음
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "게시글이 존재하지 않습니다."
+ */
+
+
+/**
+ * @swagger
+ * /posts/restore:
+ *   post:
+ *     tags:
+ *       - Posts
+ *     summary: 게시글 삭제 복구 요청
+ *     description: 게시글 삭제 복구 요청을 합니다.
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 description: 문의 제목
+ *                 example: '게시글 삭제 복구 요청'
+ *               content:
+ *                 type: string
+ *                 description: 문의 내용
+ *                 example: '게시글 삭제 복구를 요청합니다.'
+ *     responses:
+ *       201:
+ *         description: 게시글 삭제 복구 요청 성공
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "게시글 문의 요청을 완료하였습니다."
+ *       400:
+ *         description: 잘못된 요청
+ *       500:
+ *         description: 서버 오류
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "게시글 문의 요청에 실패하였습니다."
+ */
+
+
 // 내가 작성한 게시글 조회
 router.get('/mypost', checkToken, (req, res) => {
     try {
@@ -62,7 +807,7 @@ router.get('/music', (req, res) => {
             } else if(results.length !== 0){
                 return res.status(200).json({ message : "music 게시글 전체 조회 완료", results });
             } else if(results.length === 0){
-                return res.status(404).json({ message : "게시글이 존재하지 않습니다." });
+                return res.status(404).json({ message : "music 게시글이 존재하지 않습니다." });
             }
         });
     } catch (error) {
@@ -85,7 +830,7 @@ router.get('/post', (req, res) => {
             } else if(results.length !== 0){
                 return res.status(200).json({ message : "post 게시글 전체 조회 완료", results });
             } else if(results.length === 0){
-                return res.status(404).json({ message : "게시글이 존재하지 않습니다." });
+                return res.status(404).json({ message : "post 게시글이 존재하지 않습니다." });
             }
         });
     } catch (error) {
@@ -108,7 +853,7 @@ router.get('/day', (req, res) => {
             } else if(results.length !== 0){
                 return res.status(200).json({ message : "day 게시글 전체 조회 완료", results });
             } else if(results.length === 0){
-                return res.status(404).json({ message : "게시글이 존재하지 않습니다." });
+                return res.status(404).json({ message : "day 게시글이 존재하지 않습니다." });
             }
         });
     } catch (error) {
