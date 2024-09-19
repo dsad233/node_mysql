@@ -22,8 +22,8 @@
 - ('/posts/mypost', GET) 내가 작성한 게시글 조회
 - ('/posts', GET) 게시글 전체 조회
 - ('/posts/music', GET) music 게시글 전체 조회
-- ('/posts/post', GET) post 게시글 전채 조회
-- ('/posts/day', GET) day 게시글 전채 조회
+- ('/posts/post', GET) post 게시글 전체 조회
+- ('/posts/day', GET) day 게시글 전체 조회
 - ('/posts/:paramid', GET) 게시글 상세 조회
 - ('/posts/:paramid', PATCH) 게시글 수정
 - ('/posts/softdelete/:paramid', PATCH) 게시글 소프트 삭제

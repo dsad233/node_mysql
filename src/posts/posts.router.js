@@ -818,7 +818,7 @@ router.get('/music', (req, res) => {
     }
 });
 
-// post 게시글 전채 조회
+// post 게시글 전체 조회
 router.get('/post', (req, res) => {
     try {
         const sql = 'select * from posts where category = "post" and isOpen = true and deletedAt is null';
@@ -841,7 +841,7 @@ router.get('/post', (req, res) => {
     }
 });
 
-// day 게시글 전채 조회
+// day 게시글 전체 조회
 router.get('/day', (req, res) => {
     try {
         const sql = 'select * from posts where category = "day" and isOpen = true and deletedAt is null';
