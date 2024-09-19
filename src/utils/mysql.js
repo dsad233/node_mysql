@@ -9,8 +9,6 @@ const db_info = {
     database: ENV_DB_DATABASE
   };
 
-  console.log(process.env.ENV_DB_HOST)
-
   console.log(db_info)
 
 
