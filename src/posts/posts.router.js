@@ -57,7 +57,7 @@ const router = express.Router();
  *                       deletedAt:
  *                         type: string
  *                         description: 게시글 삭제 여부
- *                         format: date-time
+ *                         default: null
  *                       userId:
  *                         type: integer
  *                         default: 1
@@ -130,7 +130,7 @@ const router = express.Router();
  *                       deletedAt:
  *                         type: string
  *                         description: 게시글 삭제 여부
- *                         format: date-time
+ *                         default: null
  *                       userId:
  *                         type: integer
  *                         default: 1
@@ -204,7 +204,7 @@ const router = express.Router();
  *                       deletedAt:
  *                         type: string
  *                         description: 게시글 삭제 여부
- *                         format: date-time
+ *                         default: null
  *                       userId:
  *                         type: integer
  *                         default: 1
@@ -278,7 +278,7 @@ const router = express.Router();
  *                       deletedAt:
  *                         type: string
  *                         description: 게시글 삭제 여부
- *                         format: date-time
+ *                         default: null
  *                       userId:
  *                         type: integer
  *                         default: 1
@@ -352,7 +352,7 @@ const router = express.Router();
  *                       deletedAt:
  *                         type: string
  *                         description: 게시글 삭제 여부
- *                         format: date-time
+ *                         default: null
  *                       userId:
  *                         type: integer
  *                         default: 1
@@ -432,7 +432,7 @@ const router = express.Router();
  *                       deletedAt:
  *                         type: string
  *                         description: 게시글 삭제 여부
- *                         format: date-time
+ *                         default: null
  *                       userId:
  *                         type: integer
  *                         default: 1
